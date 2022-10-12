@@ -1,0 +1,91 @@
+
+
+
+#calculatorFullBody {
+    font-family: quicksand;
+    font-weight:bolder;
+    font-size: x-large;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid red;
+}
+
+#screen {
+    border: 2px solid black;
+    padding: 20px;
+}
+
+
+/* || BUTTONS || */
+
+#buttons {
+    border: 2px solid blue;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    padding: 10px;
+}
+
+button {
+    padding: 20px 17px;
+    font-size: x-large;
+    margin: 6px;
+    border-radius: 14%;
+    width: 60px;
+    border: none;
+}
+
+.circle {
+    border-radius: 47%;
+}
+
+.acBtn {
+    padding-left: 14px; 
+    padding-right: 18px;  
+
+} 
+
+.zeroBtn {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    border-radius: 7px;
+    width: 132px;
+
+}
+
+
+/* || COLOR || */
+
+#buttons {
+    background-color: #afd275;
+}
+
+button {
+    background-color: #afd275;
+    box-shadow: 3px 4px 5px #98b565,
+                -3px -4px 5px #c4e886;
+}
+
+button:active {
+    color: #666;
+    box-shadow: inset 4px 4px 12px #899d69,
+                inset -3px -4px 12px #cff395;
+}
+
+button:hover {
+    color: rgb(229, 255, 208);
+}
+
+.acBtn:hover {
+    color: rgb(213, 94, 94);
+}
+
+.yellow:hover {
+    color: rgb(189, 255, 57);
+}
+
+.blue:hover {
+    color: rgb(0, 123, 255);
+}
