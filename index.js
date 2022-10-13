@@ -1,91 +1,97 @@
+const btnNum = document.querySelectorAll('.btnNum');
 const btnEqual = document.querySelector('.btnEqual');
 const btnClear = document.querySelector('.btnClear');
-const btnClearPreviousHistory = document.querySelector('.btnClearPreviousHistory');
+const largeInput = document.querySelector('.largeInput');
+const smallInput = document.querySelector('.smallInput');
 const btnOperator = document.querySelectorAll('.btnOperator');
-const btnNum = document.querySelectorAll('.btnNum');
-const bigNumberDisplay = document.querySelector('.bigNumberDisplay');
-const smallNumberDisplay = document.querySelector('.smallNumberDisplay');
+const btnClearPreviousHistory = document.querySelector('.btnClearPreviousHistory');
 
+const operatorArray = ['+', '-', 'x', '/'];
 let currentNumber = '';
 let previousNumber = '';
 let total = 0;
 
-// when number click it Append Left_Number
 function appendNumber(number) {
     return currentNumber += number;
 }
 
-// when operator btn click Append operator to Previous_number.
 function appendOperator(operator) {
     return previousNumber += operator;
 }
 
-
-// update BIG DISPLAY function when number click ONLY Left_Number
 function updateBigDisplay() {
-     return bigNumberDisplay.innerText = currentNumber;
+     return largeInput.value = currentNumber;
 }
 
-// update SMALL DISPLAY function when operator click
 function updateSmallDisplay(operator) {
-    const operatorArray = ['+', '-', 'x', '/', '%'];
-
-    if (previousNumber !== '') {
+    if (previousNumber !== '' && currentNumber === '') {
         if (operatorArray.includes(previousNumber.slice(-1))) {
             previousNumber = previousNumber.slice(0 , previousNumber.length - 1);
-            return smallNumberDisplay.innerText = appendOperator(operator);
+            smallInput.value = appendOperator(operator);
         } else {
-            return smallNumberDisplay.innerText = appendOperator(operator);
+            smallInput.value = appendOperator(operator);
         }
     } else {
-        return smallNumberDisplay.innerText = previousNumber;
+        smallInput.value = previousNumber;   
     }
 }
 
-// when btn Number click it will display the Left_Number
+
 btnNum.forEach(num);
 function num(btn) {
     btn.addEventListener('click', function(e) {
-     
+
         console.log(e.target.innerText);
         appendNumber(e.target.innerText);
         updateBigDisplay();
+
+        if (operatorArray.includes(previousNumber.slice(-1)) === false && previousNumber !== '') {
+            previousNumber = '';
+            updateSmallDisplay();
+        }
     }) 
 }
 
-// Clear Display Left_Number function 
+
 function clearDisplay() {
     currentNumber = '';
     previousNumber = '';
-    bigNumberDisplay.innerText = '';
-    smallNumberDisplay.innerText = '';
+    largeInput.value = '';
+    smallInput.value = '';
 }
 
-// when AC btn click the display will clear the Left_Number
 btnClear.addEventListener('click', function() {
     clearDisplay();
 })
 
-// when <=BACK btn click the display will clear one previous Left_Number digit 
-btnClearPreviousHistory.addEventListener('click', function() {
-     currentNumber = currentNumber.slice(0 , currentNumber.length - 1);
-     updateBigDisplay();
 
-     if (previousNumber !== '') {
+btnClearPreviousHistory.addEventListener('click', function() {     
+    if (previousNumber === '') {
+        currentNumber = currentNumber.slice(0 , currentNumber.length - 1);
+        updateBigDisplay();
+
+    } else if (currentNumber === '') {
         currentNumber = previousNumber.slice(0 , previousNumber.length - 1);
         previousNumber = '';
         updateBigDisplay();
-     }
+        updateSmallDisplay();
 
-     updateSmallDisplay();
+    } else if (currentNumber !== '' && previousNumber !== '') {
+        currentNumber = currentNumber.slice(0 , currentNumber.length - 1);
+        updateBigDisplay();
+
+        if (operatorArray.includes(previousNumber.slice(-1)) === false) {
+            previousNumber = '';
+            updateSmallDisplay();
+        }
+    }
 })
 
-// Operator function
+
 function chooseOperator(operator) {
     if (currentNumber === '') {
         return;
     }
-
     previousNumber = parseInt(previousNumber.slice(0 , previousNumber.length - 1));
     currentNumber = parseInt(currentNumber);
 
@@ -102,36 +108,39 @@ function chooseOperator(operator) {
         case '/':
             total = previousNumber / currentNumber;
             break;
-
     }
-
-    smallNumberDisplay.innerText = appendOperator(operator + currentNumber);
- 
-    currentNumber = total.toString();
-    total = 0;
+    currentNumber = currentNumber.toString();
 }
 
-// when btn operator click
+
 btnOperator.forEach(function(btn) {
     btn.addEventListener('click', function(e) {
         console.log(e.target.innerText);
         if (previousNumber === '') {
             previousNumber = currentNumber;
             currentNumber = '';
+            updateBigDisplay();
+            updateSmallDisplay(e.target.innerText);   
+
+        } else if (currentNumber === '') {
+            updateSmallDisplay(e.target.innerText);
+
+        } else if (currentNumber !== '' && previousNumber !== '') {
+            chooseOperator(previousNumber.slice(-1));
+            previousNumber = total + e.target.innerText;
+            updateSmallDisplay()
+            currentNumber = '';
+            updateBigDisplay();
         }
-        updateBigDisplay();
-        updateSmallDisplay(e.target.innerText);     
     })
 });
 
-// when = click calculate & display ANS on Big Display
 btnEqual.addEventListener('click', function() {
-    const operatorArray = ['+', '-', 'x', '/', '%'];
-
     if (operatorArray.includes(previousNumber.slice(-1)) && currentNumber !== '') {
-        chooseOperator(previousNumber.slice(-1));
-        updateBigDisplay();
+        let operator = previousNumber.slice(-1);
+        chooseOperator(operator);
+        smallInput.value = appendOperator(operator + currentNumber);
+        currentNumber = total.toString();
+        updateBigDisplay();        
     }
 });
-
-
