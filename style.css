@@ -98,9 +98,9 @@ svg {
 
 /* || COLOR || */
 #calculatorFullBody {
-    box-shadow: 5px 5px 8px hwb(135 10% 73% / 0.625),
-                -5px -5px 12px hwb(133 53% 27% / 0.543);
+    box-shadow: 10px 10px 10px -1px hwb(135deg 10% 73% / 63%), -7px -7px 7px -1px #c7ffd3cc;
 }
+
 #screen {
     background-color:#afd275;
 }
@@ -119,6 +119,7 @@ input {
     color: rgb(30, 53, 44);
 }
 
+/* Screen shadow */
 .smallInput {
     box-shadow: inset 3px 5px 5px 3px rgba(0, 0, 0, 0.3);
     border-radius:  0.725rem 0.725rem  0px 0px;
@@ -134,16 +135,15 @@ input {
     background-color: #afd275;
 }
 
+/* Button shadow */
 button {
     background-color: #afd275;
-    box-shadow: 3px 4px 5px #98b565,
-                -3px -4px 5px #c4e886;
+    box-shadow: 4px 4px 5px 1px #95b559,
+                -3px -4px 10px #d7f5a4;
 }
 
-button:active {
-    color: #666;
-    box-shadow: inset 4px 4px 12px #899d69,
-                inset -3px -4px 12px #cff395;
+button {
+    box-shadow: 4px 4px 5px #4450325e, -4px -4px 5px #c2ec81; 
 }
 
 /* Hover */
